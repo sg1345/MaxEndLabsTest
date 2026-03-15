@@ -1,0 +1,25 @@
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace MaxEndLabs.Data.Models
+{
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.ComponentModel.DataAnnotations;
+    using static MaxEndLabs.GCommon.EntityValidation.ShoppingCart;
+
+    public class ShoppingCart
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        [ForeignKey(nameof(User))]
+        [MaxLength(UserIdMaxLength)]
+        public string UserId { get; set; } = null!;
+		public virtual IdentityUser User { get; set; } = null!;
+
+		[Required]
+        public DateTime CreatedAt { get; set; }
+        
+        public virtual ICollection<CartItem> CartItems { get; set; } = new HashSet<CartItem>();
+    }
+}

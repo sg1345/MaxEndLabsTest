@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.23" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MaxEndLabs.Data\MaxEndLabs.Data.csproj" />
+    <ProjectReference Include="..\MaxEndLabs.GCommon\MaxEndLabs.GCommon.csproj" />
+    <ProjectReference Include="..\MaxEndLabs.Service.Models\MaxEndLabs.Service.Models.csproj" />
+    <ProjectReference Include="..\MaxEndLabs.ViewModels\MaxEndLabs.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>

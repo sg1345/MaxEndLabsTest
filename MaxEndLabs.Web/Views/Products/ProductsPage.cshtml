@@ -1,0 +1,45 @@
+﻿@model MaxEndLabs.ViewModels.Product.ProductsPageViewModel
+@{
+	ViewBag.Title =  Model.Title;
+}
+
+<h2>@Model.Title</h2>
+<div class="row">
+	@if (Model.Products.Any())
+	{
+		@foreach (var product in Model.Products)
+		{
+			<div class="col-md-3 mb-3">
+				<a class="text-decoration-none text-dark"
+				   asp-controller="Products"
+				   asp-action="Details"
+				   asp-route-categorySlug="@product.CategorySlug"
+				   asp-route-productSlug="@product.Slug">
+					<div class="card h-100">
+						@if (string.IsNullOrEmpty(product.MainImageUrl))
+						{
+							<img src="~/images/default_product_image.jpg" class="card-img-top"/>
+						}
+						else
+						{
+							<img src="@product.MainImageUrl" class="card-img-top" alt="@product.Name"/>
+						}
+
+						<div class="card-body">
+							<h5 class="card-title">@product.Name</h5>
+									<p class="card-text fw-bold">€@product.Price</p>
+						</div>
+					</div>
+				</a>
+			</div>
+		}
+	}
+	else
+	{
+		<div class="col-12">
+			<div class="alert alert-info text-center" role="alert">
+				No products found in this category.
+			</div>
+		</div>
+	}
+</div>
