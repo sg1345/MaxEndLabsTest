@@ -326,6 +326,8 @@ namespace MaxEndLabs.Services.Core
             product.UpdatedAt = DateOnly.FromDateTime(DateTime.UtcNow);
             product.Slug = GenerateSlug(dto.Name);
 
+            _productRepository.UpdateProduct(product);
+
             await EnsureSaveChangesAsync();
 
 			return (categorySlug, product.Slug);
