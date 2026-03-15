@@ -1,14 +1,17 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy all files from the root of your repo
+# Copy everything into the container
 COPY . .
 
-# Restore dependencies - looking for the file in the current directory
-RUN dotnet restore "./MaxEndLabs.csproj"
+# Step into the folder where the .csproj actually lives
+WORKDIR "/src/MaxEndLabs"
+
+# Restore using the local path
+RUN dotnet restore "MaxEndLabs.csproj"
 
 # Build and Publish
-RUN dotnet publish "./MaxEndLabs.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "MaxEndLabs.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 # Runtime Stage
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
