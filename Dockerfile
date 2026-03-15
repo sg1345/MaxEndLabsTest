@@ -1,20 +1,22 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy everything from the root
+# Copy all files from the root of your repo
 COPY . .
 
-# Find the project file and restore
-RUN dotnet restore "MaxEndLabs/MaxEndLabs.csproj"
+# Restore dependencies - looking for the file in the current directory
+RUN dotnet restore "./MaxEndLabs.csproj"
 
-# Build the project
-WORKDIR "/src/MaxEndLabs"
-RUN dotnet publish "MaxEndLabs.csproj" -c Release -o /app/publish /p:UseAppHost=false
+# Build and Publish
+RUN dotnet publish "./MaxEndLabs.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
+# Runtime Stage
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 COPY --from=build /app/publish .
 
+# Standard Port for Render
 ENV ASPNETCORE_URLS=http://+:8080
 EXPOSE 8080
+
 ENTRYPOINT ["dotnet", "MaxEndLabs.dll"]
