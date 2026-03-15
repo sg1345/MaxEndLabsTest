@@ -50,8 +50,24 @@ namespace MaxEndLabs.Web
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            using (var scope = app.Services.CreateScope())
+            {
+	            var services = scope.ServiceProvider;
+	            try
+	            {
+		            var context = services.GetRequiredService<MaxEndLabsDbContext>();
+		            // This is the C# version of "Update-Database"
+		            context.Database.Migrate();
+		            Console.WriteLine("Database migration successful!");
+	            }
+	            catch (Exception ex)
+	            {
+		            Console.WriteLine($"An error occurred while migrating the database: {ex.Message}");
+	            }
+            }
+
+			// Configure the HTTP request pipeline.
+			if (app.Environment.IsDevelopment())
             {
                 app.UseMigrationsEndPoint();
             }
